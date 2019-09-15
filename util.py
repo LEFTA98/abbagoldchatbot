@@ -36,9 +36,9 @@ class MessageHandler():
 
     def yes_or_no_q(self):
         """Returns whether or not the message posed was a yes or not question that was personal."""
-        content = self.message.lower().split()
+        content = self.message.lower().split()[0]
         try:
-            return (content[0] in ['should','will','can','is','would'])
+            return content in ['should','will','can','is','would']
         except IndexError:
             print('index error in yes_or_no_q')
             return False
@@ -54,9 +54,9 @@ class MessageHandler():
     
     def why_what(self):
         """Returns whether or not the question is a why or what statement."""
-        content = self.message.lower().split()
+        content = self.message.lower().split()[0]
         try:
-            return (content[0] in ['what','why','how'])
+            return content in ['what','why','how']
         except IndexError:
             print('index error in why_what')
             return False
@@ -76,7 +76,10 @@ class MessageHandler():
         phrases = set({})
         if self.yes_or_no_q():
             phrases = set.union(phrases, lyrics.yes_or_no_personal)
-            print('yes_or_no_q')    
+            print('yes_or_no_q')
+        if self.why_what():
+            phrases = set.union(phrases, lyrics.why_what)  
+            print('why_what')
         if self.waterloo():
             phrases = set.union(phrases, lyrics.waterloo)
             print('waterloo')
